@@ -1,61 +1,63 @@
 import * as React from 'react';
-import { View, Text, Button, Platform } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { Audio } from 'expo-av';
 
 function HomeScreen({ navigation }) {
-  const [permission, setPermission] = React.useState(false);
-
-  const getMicrophonePermissions = async () => {
-    const { status } = await Audio.requestPermissionsAsync();
-    setPermission(status === 'granted');
-  };
-
-  const startRecording = async () => {
-    if (!permission) {
-      await getMicrophonePermissions();
-    }
-    if (permission) {
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
-      });
-      
-      // Start the recording
+    const [permission, setPermission] = React.useState(false);
+  
+    React.useEffect(() => {
+      (async () => {
+        const { status } = await Audio.requestPermissionsAsync();
+        setPermission(status === 'granted');
+      })();
+    }, []);
+  
+    const recordSegment = async () => {
       const recording = new Audio.Recording();
       try {
         await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
         await recording.startAsync();
-
-        // Split audio into 3-second intervals
-        const interval = setInterval(async () => {
-          await recording.stopAndUnloadAsync();
-          const uri = recording.getURI(); // This is the file path of the recording
-          // Here you would send `uri` to your Flask backend
-          console.log(uri);
-
-          // Start a new recording for the next segment
-          await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
-          await recording.startAsync();
-        }, 3000);
-
-        // Remember to clear the interval when you navigate away or stop recording
-        // clearInterval(interval);
-
+        // Wait for 3 seconds
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        await recording.stopAndUnloadAsync();
+        // Get the URI of the recorded segment
+        const uri = recording.getURI();
+        console.log(uri);
+        // Here, you can also add code to upload the file to your server
       } catch (error) {
-        console.error(error);
+        console.error("Error during recording: ", error);
       }
-    }
-  };
-
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{ fontSize: 26, fontWeight: 'bold' }}>Home Screen</Text>
-      <Button
-        title="Go Home"
-        onPress={startRecording}
-      />
-    </View>
-  );
-}
-
+    };
+  
+    const startSegmentedRecording = async (duration, interval) => {
+      const startTime = Date.now();
+      const recordNextSegment = async () => {
+        if (Date.now() - startTime < duration) {
+          await recordSegment();
+          setTimeout(recordNextSegment, interval);
+        }
+      };
+      recordNextSegment();
+    };
+  
+    const startRecording = () => {
+      if (!permission) {
+        console.log('Microphone permission is required.');
+        return;
+      }
+      // Start segmented recording for a total duration of 30 seconds, with each segment being 3 seconds long
+      startSegmentedRecording(30000, 3000);
+    };
+  
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text style={{ fontSize: 26, fontWeight: 'bold' }}>Home Screen</Text>
+        <Button
+          title="Go Home"
+          onPress={startRecording}
+        />
+      </View>
+    );
+  }
+  
 export default HomeScreen;
