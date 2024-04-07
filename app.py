@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from twilio.rest import Client
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -9,11 +10,9 @@ CORS(app)
 def get_articles():
     return jsonify({"Hello":"World"})
 
-
-# Twilio credentials
-ACCOUNT_SID = 'AC44ed71c48f6770b3cc0fb410a851c3e9'
-AUTH_TOKEN = 'ca45abdfb45a30ce27cb9c1fd1737c5e'
-TWILIO_NUMBER = '+18557203385'
+ACCOUNT_SID = os.getenv('ACCOUNT_SID')
+AUTH_TOKEN = os.getenv('AUTH_TOKEN')
+TWILIO_NUMBER = os.getenv('TWILIO_NUMBER')
 
 #twilio 
 @app.route('/send_sms', methods=['POST'])
