@@ -1,21 +1,12 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-// Optionally import the services that you want to use
-
-// import {...} from "firebase/auth";
-// import {...} from "firebase/database";
-// import {...} from "firebase/firestore";
-// import {...} from "firebase/functions";
-// import {...} from "firebase/storage";
+import { initializeApp } from 'firebase/app';
+import { getDatabase } from 'firebase/database';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBA0O6q2cir2AWdCQP36QnxYJa6LNxsLkU",
   authDomain: "pickhacks2024.firebaseapp.com",
+  databaseURL: "https://pickhacks2024-default-rtdb.firebaseio.com", // Ensure this is correct
   projectId: "pickhacks2024",
   storageBucket: "pickhacks2024.appspot.com",
   messagingSenderId: "626468301344",
@@ -24,5 +15,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const realtimeDb = getDatabase(app);
 
-export default firebase;
+export { realtimeDb };
