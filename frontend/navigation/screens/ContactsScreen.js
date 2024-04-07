@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Text } from 'react-native';
+import { View, Text, Button, Alert} from 'react-native';
 
 export default function ContactsScreen({navigation}) {
     return(
@@ -7,6 +7,11 @@ export default function ContactsScreen({navigation}) {
             <Text
                 onPress={() => navigation.navigate('ContactsScreen')}
                 style={{ fontSize: 26, fontWeight: 'bold' }}Contacts Screen></Text>
+            <Button
+                title="Send message"
+                onPress={() => Alert.alert('do whatever')}
+            />
         </View>
+        
     );
 }
