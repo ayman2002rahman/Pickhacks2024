@@ -5,8 +5,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 // Screens
 import HomeScreen from './screens/HomeScreen'
-import ContactsScreen from './pages/ContactsScreen'
-import AddressScreen from "./pages/AddressScreen";
+import ContactsScreen from './screens/ContactsScreen'
+import AddressScreen from "./screens/AddressScreen";
 
 // Screen names
 const homeName = 'Home';
