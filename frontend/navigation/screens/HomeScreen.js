@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
+import { TouchableOpacity, View, Text, Button, Image } from 'react-native';
 import { Audio } from 'expo-av';
+import AddressScreen from './AddressScreen';
 
 function HomeScreen({ navigation }) {
     const [permission, setPermission] = React.useState(false);
@@ -51,11 +52,23 @@ function HomeScreen({ navigation }) {
   
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontSize: 26, fontWeight: 'bold' }}>Home Screen</Text>
-        <Button
-          title="Go Home"
-          onPress={startRecording}
+        <Image
+          style={{ width: 300, height: 230 }}
+          source={require('./../../assets/on_track_logo.png')}
         />
+        <Text style={{ fontSize: 36, fontWeight: 'bold', marginBottom: 20 }}>On Track</Text>
+        <TouchableOpacity
+          onPress={() => {
+            //startRecording();
+            //navigation.navigate(AddressScreen);
+          }}
+          style={{ padding: 10, backgroundColor: '#8455F6', borderRadius: 25, height: 50, width: 150, justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Image
+          style={{ width: 50, height: 25, marginRight: 10 }}
+          source={require('./../../assets/Shaperight_arrow.png')}
+        />
+        </TouchableOpacity>
       </View>
     );
   }

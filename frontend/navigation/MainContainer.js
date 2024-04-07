@@ -15,19 +15,9 @@ function MyTabs() {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: '#2D69EB',
+        tabBarActiveTintColor: '#8455F6',
       }}
     >
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-        }}
-      />
       <Tab.Screen
         name="Contacts"
         component={ContactsScreen}
@@ -35,6 +25,16 @@ function MyTabs() {
           tabBarLabel: 'Contacts',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account-group" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
         }}
       />
