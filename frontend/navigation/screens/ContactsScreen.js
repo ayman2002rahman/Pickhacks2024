@@ -2,7 +2,7 @@ import * as React from 'react'
 import { View, Text, Button, Alert, Platform, Linking} from 'react-native';
 
 function testSMS(to, message) {
-    fetch('/send_sms', {
+    fetch('http://localhost:5000/send_sms', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
