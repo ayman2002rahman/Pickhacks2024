@@ -13,6 +13,7 @@ import {
 import * as Contacts from "expo-contacts";
 import { realtimeDb } from "../../firebaseConfig"; // Adjust this import to your firebaseConfig file's actual path
 import { ref, set, onValue } from "firebase/database";
+import * as Location from "expo-location";
 
 function testSMS(to, message) {
   fetch("http://10.106.93.50:5001/send_sms", {
@@ -91,8 +92,16 @@ export default function ContactsScreen({ navigation }) {
     setSelectedContacts(new Set());
   };
 
-  const sendMessageToSavedContacts = () => {
-    const message = "Hello Ayman :)"; // Customize your message
+  const sendMessageToSavedContacts = async () => {
+    const location = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.High,
+    });
+    const { latitude, longitude } = location.coords;
+    const message = `This is an automated message from OnTrack:
+
+Alert: Merrick just screamed. Please check up on them.
+  
+Last known location: (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`;
     savedContacts.forEach((phoneNumber) => {
       console.log("Sending message to", phoneNumber);
       testSMS(phoneNumber, message);

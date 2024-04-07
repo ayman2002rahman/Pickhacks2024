@@ -104,11 +104,16 @@ const AddressScreen = () => {
           console.log("Distance from path:", nearestPointDistance);
 
           const currentTime = Date.now(); //UNUSED: currentTime
-          if (nearestPointDistance > 50 && lastAlertTime) {
-            sendMessageToSavedContacts(
-              "Alert: I may be in danger or lost, please check on me."
-            );
+          if (nearestPointDistance > 5) {
+            const message = `This is an automated message from OnTrack:
+
+Alert: Merrick may be lost or in danger, please check in on them. 
+              
+Last known location: (${latitude.toFixed(2)}, ${longitude.toFixed(
+              2
+            )})`;
             console.log("Deviation Alert");
+            sendMessageToSavedContacts(message);
             setLastAlertTime(false);
           }
         }

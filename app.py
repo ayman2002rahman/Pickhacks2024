@@ -15,7 +15,7 @@ def get_articles():
 # TWILIO_NUMBER = os.getenv('TWILIO_NUMBER')
 
 ACCOUNT_SID = 'AC41c03ebecd0d0ae9c960eeb3082ec407'
-AUTH_TOKEN = 'bad8dcb6da6ec6e7e8f2133da9eb72e8'
+AUTH_TOKEN = '402f5b2391598ec151f27d1394732519'
 TWILIO_NUMBER = '+18449504817'
 
 #twilio 
