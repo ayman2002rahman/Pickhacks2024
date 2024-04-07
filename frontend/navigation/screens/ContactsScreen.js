@@ -15,7 +15,7 @@ import { realtimeDb } from "../../firebaseConfig"; // Adjust this import to your
 import { ref, set, onValue } from "firebase/database";
 
 function testSMS(to, message) {
-  fetch("http://localhost:5000/send_sms", {
+  fetch("http://10.106.54.21:5000/send_sms", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

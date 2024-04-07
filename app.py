@@ -10,9 +10,13 @@ CORS(app)
 def get_articles():
     return jsonify({"Hello":"World"})
 
-ACCOUNT_SID = os.getenv('ACCOUNT_SID')
-AUTH_TOKEN = os.getenv('AUTH_TOKEN')
-TWILIO_NUMBER = os.getenv('TWILIO_NUMBER')
+# ACCOUNT_SID = os.getenv('ACCOUNT_SID')
+# AUTH_TOKEN = os.getenv('AUTH_TOKEN')
+# TWILIO_NUMBER = os.getenv('TWILIO_NUMBER')
+
+ACCOUNT_SID = 'AC44ed71c48f6770b3cc0fb410a851c3e9'
+AUTH_TOKEN = 'ca45abdfb45a30ce27cb9c1fd1737c5e'
+TWILIO_NUMBER = '+18557203385'
 
 #twilio 
 @app.route('/send_sms', methods=['POST'])
@@ -41,5 +45,8 @@ def send_sms():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# if __name__ == "__main__":
+#     app.run()
+
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
