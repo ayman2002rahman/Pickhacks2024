@@ -47,7 +47,7 @@ const AddressScreen = () => {
 
           console.log("Distance from path:", nearestPointDistance);
 
-          const currentTime = Date.now();
+          const currentTime = Date.now(); //UNUSED: currentTime
           if (nearestPointDistance > 40 && lastAlertTime) {
             //Alert.alert("Deviation Alert", "You have deviated too far from the path.");
             console.log("Deviation Alert");
@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     zIndex: 1,
+    borderRadius: 10,
   },
   input: {
     borderWidth: 1,
