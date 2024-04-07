@@ -10,9 +10,13 @@ CORS(app)
 def get_articles():
     return jsonify({"Hello":"World"})
 
-ACCOUNT_SID = os.getenv('ACCOUNT_SID')
-AUTH_TOKEN = os.getenv('AUTH_TOKEN')
-TWILIO_NUMBER = os.getenv('TWILIO_NUMBER')
+# ACCOUNT_SID = os.getenv('ACCOUNT_SID')
+# AUTH_TOKEN = os.getenv('AUTH_TOKEN')
+# TWILIO_NUMBER = os.getenv('TWILIO_NUMBER')
+
+ACCOUNT_SID = 'AC41c03ebecd0d0ae9c960eeb3082ec407'
+AUTH_TOKEN = 'bad8dcb6da6ec6e7e8f2133da9eb72e8'
+TWILIO_NUMBER = '+18449504817'
 
 #twilio 
 @app.route('/send_sms', methods=['POST'])
@@ -30,6 +34,8 @@ def send_sms():
     # Initialize the Twilio client
     client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
+    print(client)
+
     # Send the SMS
     try:
         message = client.messages.create(
@@ -42,4 +48,4 @@ def send_sms():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0', port=5001)

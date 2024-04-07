@@ -15,15 +15,27 @@ import { realtimeDb } from "../../firebaseConfig"; // Adjust this import to your
 import { ref, set, onValue } from "firebase/database";
 
 function testSMS(to, message) {
-  fetch("http://localhost:5000/send_sms", {
+  fetch("http://10.106.93.50:5001/send_sms", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ to, message }),
   })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.text(); // Use text() here as the response might not be JSON
+    })
+    .then((text) => {
+      try {
+        const data = JSON.parse(text); // Safely attempt to parse the text as JSON
+        console.log(data);
+      } catch (error) {
+        console.error("Failed to parse JSON:", error);
+      }
+    })
     .catch((error) => console.error("Error:", error));
 }
 
@@ -79,6 +91,14 @@ export default function ContactsScreen({ navigation }) {
     setSelectedContacts(new Set());
   };
 
+  const sendMessageToSavedContacts = () => {
+    const message = "Hello Ayman :)"; // Customize your message
+    savedContacts.forEach((phoneNumber) => {
+      console.log("Sending message to", phoneNumber);
+      testSMS(phoneNumber, message);
+    });
+  };
+
   const renderContact = ({ item }) => {
     const isSelected = selectedContacts.has(item.id);
     const isSaved =
@@ -121,10 +141,8 @@ export default function ContactsScreen({ navigation }) {
         renderItem={renderContact}
       />
       <Button
-        title="Send message"
-        onPress={() => {
-          testSMS("+18777804236", "This text is from the app!");
-        }}
+        title="Send Message to Saved Contacts"
+        onPress={sendMessageToSavedContacts}
       />
     </View>
   );
