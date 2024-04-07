@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, Button, FlatList, TouchableOpacity, StyleSheet, Alert, Platform, Linking } from 'react-native';
 import * as Contacts from 'expo-contacts';
-import firebase from '../../firebaseConfig'; // Adjust this import to your firebaseConfig file's actual path
+//import firebase from '../../firebaseConfig'; // Adjust this import to your firebaseConfig file's actual path
 
 function testSMS(to, message) {
     fetch('/send_sms', {
@@ -23,7 +23,8 @@ export default function ContactsScreen({ navigation }) {
 
     React.useEffect(() => {
         loadContacts();
-        loadSavedContacts();
+        //loadSavedContacts();
+        
     }, []);
 
     const loadContacts = async () => {
@@ -36,14 +37,14 @@ export default function ContactsScreen({ navigation }) {
         }
     };
 
-    const loadSavedContacts = async () => {
-        const dbRef = firebase.database().ref('contacts');
-        dbRef.on('value', (snapshot) => {
-            const data = snapshot.val() || {};
-            const savedNumbers = new Set(Object.keys(data));
-            setSavedContacts(savedNumbers);
-        });
-    };
+    // const loadSavedContacts = async () => {
+    //     const dbRef = firebase.database().ref('contacts');
+    //     dbRef.on('value', (snapshot) => {
+    //         const data = snapshot.val() || {};
+    //         const savedNumbers = new Set(Object.keys(data));
+    //         setSavedContacts(savedNumbers);
+    //     });
+    // };
 
     const handleSelectContact = (contactId, phoneNumber) => {
         const updatedSelection = new Set(selectedContacts);
@@ -56,23 +57,22 @@ export default function ContactsScreen({ navigation }) {
         setSelectedContacts(updatedSelection);
     };
 
-    const saveContactToDatabase = (contactId, phoneNumber) => {
-        const dbRef = firebase.database().ref(`contacts/${phoneNumber}`);
-        dbRef.set({ contactId, phoneNumber });
-    };
+    // const saveContactToDatabase = (contactId, phoneNumber) => {
+    //     const dbRef = firebase.database().ref(`contacts/${phoneNumber}`);
+    //     dbRef.set({ contactId, phoneNumber });
+    // };
 
     const renderContact = ({ item }) => {
         const isSelected = selectedContacts.has(item.id);
-        const isSaved = savedContacts.has(item.phoneNumbers[0].number);
+        //const isSaved = savedContacts.has(item.phoneNumbers[0].number);
 
         return (
             <TouchableOpacity
-                style={[styles.contactItem, isSelected && styles.selected, isSaved && styles.saved]}
+                style={[styles.contactItem, isSelected && styles.selected, styles.saved]}
                 onPress={() => handleSelectContact(item.id, item.phoneNumbers[0].number)}
             >
                 <Text style={styles.contactName}>{item.name}</Text>
-                <Text>{item.phoneNumbers[0].number}</Text>
-                {isSaved && <Text style={styles.savedText}>Saved</Text>}
+                {<Text style={styles.savedText}>Saved</Text>}
             </TouchableOpacity>
         );
     };
