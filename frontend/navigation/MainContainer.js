@@ -1,44 +1,61 @@
 import * as React from 'react';
+import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-// Screens
-import HomeScreen from './screens/HomeScreen'
-import ContactsScreen from './screens/ContactsScreen'
-import AddressScreen from "./screens/AddressScreen";
-
-// Screen names
-const homeName = 'Home';
-const contactsName = 'Contacts';
-const addressName = 'Address';
+import HomeScreen from './screens/HomeScreen';
+import ContactsScreen from './screens/ContactsScreen';
+import AddressScreen from './screens/AddressScreen';
 
 const Tab = createBottomTabNavigator();
 
-export default function MainContainer() {
-    return(
-        <NavigationContainer>
-            <Tab.NavigationContainer
-                initialRouteName={homeName}
-                screenOptions={({route}) => ({
-                    tabBarIcon: ({focused, color, size}) => {
-                        let iconName;
-                        let routeName = route.name;
-                        if (routeName == homeName) {
-                            iconName = focused ? 'home' : 'home-outline'
-                        } else if (routeName == contactsName) {
-                            iconName = focused ? 'list' : 'list-outline'
-                        } else if (routeName == addressName) {
-                            iconName = focused ? 'settings' : 'settings-outline'
-                        }
+function MyTabs() {
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        tabBarActiveTintColor: '#2D69EB',
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Contacts"
+        component={ContactsScreen}
+        options={{
+          tabBarLabel: 'Contacts',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account-group" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Address"
+        component={AddressScreen}
+        options={{
+          tabBarLabel: 'Address',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="map-marker" color={color} size={size} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
-                        return <Ionicons name={iconName} size={size} color={color}/>
-                    },
-                })}>
-
-                <Tab.Screen name={homeName} component={HomeScreen}/>
-
-            </Tab.NavigationContainer>
-        </NavigationContainer>
-    );
+export default function App() {
+  return (
+    <NavigationContainer>
+      <MyTabs />
+    </NavigationContainer>
+  );
 }
