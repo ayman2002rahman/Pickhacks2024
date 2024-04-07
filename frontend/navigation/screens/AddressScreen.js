@@ -5,6 +5,7 @@ import MapView, { Polyline } from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { decode } from "@mapbox/polyline";
 import * as geolib from "geolib";
+import { GOOGLE_PLACES_API_KEY, GOOGLE_DIRECTIONS_API_KEY } from "@env";
 
 import { ref, onValue } from "firebase/database";
 import { realtimeDb } from "../../firebaseConfig";
@@ -104,14 +105,12 @@ const AddressScreen = () => {
           console.log("Distance from path:", nearestPointDistance);
 
           const currentTime = Date.now(); //UNUSED: currentTime
-          if (nearestPointDistance > 5) {
+          if (nearestPointDistance > 10) {
             const message = `This is an automated message from OnTrack:
 
-Alert: Merrick may be lost or in danger, please check in on them. 
+Alert: Dheeraj may be lost or in danger, please check in on them. 
               
-Last known location: (${latitude.toFixed(2)}, ${longitude.toFixed(
-              2
-            )})`;
+Last known location: (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`;
             console.log("Deviation Alert");
             sendMessageToSavedContacts(message);
             setLastAlertTime(false);
@@ -129,10 +128,9 @@ Last known location: (${latitude.toFixed(2)}, ${longitude.toFixed(
   }, [route, lastAlertTime]);
 
   const fetchDirections = async (originLat, originLong, destination) => {
-    const apiKey = "AIzaSyBA0O6q2cir2AWdCQP36QnxYJa6LNxsLkU"; // Use your actual Google Directions API key
     const directionsUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${originLat},${originLong}&destination=${encodeURIComponent(
       destination
-    )}&mode=walking&key=${apiKey}`;
+    )}&mode=walking&key=${GOOGLE_DIRECTIONS_API_KEY}`;
 
     try {
       const response = await fetch(directionsUrl);
@@ -173,7 +171,7 @@ Last known location: (${latitude.toFixed(2)}, ${longitude.toFixed(
             handleSubmit(details?.formatted_address || data.description)
           }
           query={{
-            key: "AIzaSyBA0O6q2cir2AWdCQP36QnxYJa6LNxsLkU", // Use your actual Google Places API key
+            key: GOOGLE_PLACES_API_KEY, // Use your actual Google Places API key
             language: "en",
           }}
           styles={{ textInput: styles.input }}

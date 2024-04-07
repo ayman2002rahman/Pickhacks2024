@@ -99,7 +99,7 @@ export default function ContactsScreen({ navigation }) {
     const { latitude, longitude } = location.coords;
     const message = `This is an automated message from OnTrack:
 
-Alert: Merrick just screamed. Please check up on them.
+Alert: Dheeraj just screamed. Please check up on them.
   
 Last known location: (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`;
     savedContacts.forEach((phoneNumber) => {
